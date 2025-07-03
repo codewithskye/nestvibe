@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Properties - NestVibe Realty</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="menu-toggle-container">
+            <div class="menu-toggle">
+                <i class='bx bx-menu' id="menu-open"></i>
+                <i class='bx bx-x' id="menu-close" style="display: none;"></i>
+            </div>
+        </div>
+        <a href="index.html" class="logo">NestVibe Realty</a>
+        <a href="rental-application.html" class="mobile-get-started">Get Started</a>
+        <div class="nav-right">
+            <ul class="links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="properties.html">Properties</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+            <a href="rental-application.html" class="btn nav-btn">Get Started</a>
+            <div class="mode-toggle">
+                <i class='bx bx-moon'></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Properties Hero Section -->
+    <section id="properties-hero" class="content-section mobile-scroll">
+        <div class="hero-overlay"></div>
+        <div class="hero-container">
+            <h1 class="header hero-title">Explore Our Rental Properties</h1>
+            <p class="hero-text">Find the perfect home from our curated selection of modern apartments and houses across the United States.</p>
+        </div>
+    </section>
+
+    <!-- Properties Filter Section -->
+    <section id="properties-filter" class="content-section">
+        <div class="filter-container">
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="props-state-select">State</label>
+                    <select id="props-state-select" class="filter-select">
+                        <option value="">All States</option>
+                        <option value="new-york">New York</option>
+                        <option value="texas">Texas</option>
+                        <option value="california">California</option>
+                        <option value="florida">Florida</option>
+                        <option value="illinois">Illinois</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="props-city-select">City</label>
+                    <select id="props-city-select" class="filter-select">
+                        <option value="">All Cities</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="props-property-type">Property Type</label>
+                    <select id="props-property-type" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="studio">Studio</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="house">House</option>
+                        <option value="penthouse">Penthouse</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-range">Price Range</label>
+                    <select id="price-range" class="filter-select">
+                        <option value="">Any Price</option>
+                        <option value="1000-2000">$1,000 - $2,000</option>
+                        <option value="2000-3000">$2,000 - $3,000</option>
+                        <option value="3000-4000">$3,000 - $4,000</option>
+                        <option value="4000+">$4,000+</option>
+                    </select>
+                </div>
+                <button class="btn filter-btn" id="apply-props-filter">Filter Properties</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Properties Section -->
+    <section id="all-properties" class="content-section mobile-scroll">
+        <div class="properties-container">
+            <h2 class="section-header">All Available Properties</h2>
+            <p class="section-text">Browse our full range of rental properties across the United States.</p>
+            <div class="property-grid" id="property-grid">
+                <div class="property-card slide-in-left" data-state="new-york" data-city="manhattan" data-type="studio" data-price="2850">
+                    <div class="property-image" style="background-image: url('images/Manhattan.jpg')"></div>
+                    <h3>Manhattan Studio</h3>
+                    <p>$2,850/month | 1 Bed | 1 Bath | Manhattan, NY</p>
+                    <p class="property-desc">A modern studio in the heart of Manhattan with stunning city views and premium amenities.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="texas" data-city="austin" data-type="house" data-price="2200">
+                    <div class="property-image" style="background-image: url('images/Austin.jpg')"></div>
+                    <h3>Austin Family Home</h3>
+                    <p>$2,200/month | 3 Bed | 2 Bath | Austin, TX</p>
+                    <p class="property-desc">Spacious family home with modern finishes, perfect for growing families in Austin.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-left" data-state="florida" data-city="miami" data-type="penthouse" data-price="4500">
+                    <div class="property-image" style="background-image: url('images/Penthouse.jpg')"></div>
+                    <h3>Miami Penthouse</h3>
+                    <p>$4,500/month | 2 Bed | 2 Bath | Miami, FL</p>
+                    <p class="property-desc">Luxurious penthouse with ocean views and private rooftop access in Miami Beach.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="new-york" data-city="brooklyn" data-type="apartment" data-price="3200">
+                    <div class="property-image" style="background-image: url('images/Brooklyn\ Loft.jpg')"></div>
+                    <h3>Brooklyn Loft</h3>
+                    <p>$3,200/month | 2 Bed | 1 Bath | Brooklyn, NY</p>
+                    <p class="property-desc">Industrial-style loft with exposed brick and modern amenities in trendy Brooklyn.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-left" data-state="texas" data-city="dallas" data-type="apartment" data-price="1800">
+                    <div class="property-image" style="background-image: url('images/Dallas.jpg')"></div>
+                    <h3>Dallas Modern Apartment</h3>
+                    <p>$1,800/month | 2 Bed | 2 Bath | Dallas, TX</p>
+                    <p class="property-desc">Contemporary apartment with smart home features in downtown Dallas.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="illinois" data-city="chicago" data-type="apartment" data-price="2600">
+                    <div class="property-image" style="background-image: url('images/Chicago\ Cityscape.jpg')"></div>
+                    <h3>Chicago Cityscape</h3>
+                    <p>$2,600/month | 3 Bed | 2 Bath | Chicago, IL</p>
+                    <p class="property-desc">Elegant apartment with Lake Michigan views in the heart of Chicago.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-left" data-state="california" data-city="los-angeles" data-type="apartment" data-price="3800">
+                    <div class="property-image" style="background-image: url('images/LA\ Modern\ Apartment.jpg')"></div>
+                    <h3>LA Modern Apartment</h3>
+                    <p>$3,800/month | 2 Bed | 2 Bath | Los Angeles, CA</p>
+                    <p class="property-desc">Stylish apartment in West Hollywood with rooftop pool and city views.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="texas" data-city="houston" data-type="house" data-price="2100">
+                    <div class="property-image" style="background-image: url('images/HoustonSH.jpg')"></div>
+                    <h3>Houston Suburban Home</h3>
+                    <p>$2,100/month | 4 Bed | 3 Bath | Houston, TX</p>
+                    <p class="property-desc">Spacious family home with large backyard in a quiet Houston neighborhood.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-left" data-state="california" data-city="san-francisco" data-type="studio" data-price="3500">
+                    <div class="property-image" style="background-image: url('images/San-home.jpg')"></div>
+                    <h3>San Francisco Studio</h3>
+                    <p>$3,500/month | 1 Bed | 1 Bath | San Francisco, CA</p>
+                    <p class="property-desc">Modern studio in SOMA with tech amenities and bay views.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="florida" data-city="orlando" data-type="apartment" data-price="1650">
+                    <div class="property-image" style="background-image: url('images/Orlando\ Resort\ Living.jpg')"></div>
+                    <h3>Orlando Resort Living</h3>
+                    <p>$1,650/month | 2 Bed | 2 Bath | Orlando, FL</p>
+                    <p class="property-desc">Resort-style apartment complex with pool and fitness center near theme parks.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-left" data-state="new-york" data-city="queens" data-type="apartment" data-price="2400">
+                    <div class="property-image" style="background-image: url('images/Queens.jpg')"></div>
+                    <h3>Queens Family Apartment</h3>
+                    <p>$2,400/month | 3 Bed | 2 Bath | Queens, NY</p>
+                    <p class="property-desc">Family-friendly apartment in a diverse neighborhood with great schools nearby.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+
+                <div class="property-card slide-in-right" data-state="illinois" data-city="naperville" data-type="house" data-price="2800">
+                    <div class="property-image" style="background-image: url('images/Naperville.jpg')"></div>
+                    <h3>Naperville Executive Home</h3>
+                    <p>$2,800/month | 4 Bed | 3 Bath | Naperville, IL</p>
+                    <p class="property-desc">Executive home in top-rated school district with premium finishes.</p>
+                    <a href="rental-application.html" class="btn property-btn">Rent Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section id="contact-cta" class="content-section mobile-scroll">
+        <div class="cta-container">
+            <h2 class="section-header">Ready to Move In?</h2>
+            <p class="section-text">Contact our team to schedule a viewing or start your application today.</p>
+            <a href="rental-application.html" class="btn cta-btn">Speak with Our Agents</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="col-left">
+            <div class="col-box">
+                <i class='bx bx-envelope'></i>
+                <span>contact@nestviberealty.com</span>
+            </div>
+            <div class="col-box">
+                <i class='bx bx-phone'></i>
+                <span>+1 (555) 123-4567</span>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="social-icons">
+                <a href="#"><i class='bx bxl-facebook'></i></a>
+                <a href="#"><i class='bx bxl-twitter'></i></a>
+                <a href="#"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 NestVibe Realty. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <!-- <div class="chat-widget" id="chat-widget">
+        <div class="chat-toggle" id="chat-toggle">
+            <i class='bx bx-message-dots'></i>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <div class="chat-header">
+                <h4>Chat with NestVibe</h4>
+                <button class="chat-close" id="chat-close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <p>Hello! Welcome to NestVibe Realty. How can I help you find your perfect home today?</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message..." />
+                <button id="send-message">
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Toast Notification -->
+    <div class="toast hidden"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Application - NestVibe Realty</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="menu-toggle-container">
+            <div class="menu-toggle">
+                <i class='bx bx-menu' id="menu-open"></i>
+                <i class='bx bx-x' id="menu-close" style="display: none;"></i>
+            </div>
+        </div>
+        <a href="index.html" class="logo">NestVibe Realty</a>
+        <a href="rental-application.html" class="mobile-get-started">Get Started</a>
+        <div class="nav-right">
+            <ul class="links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="properties.html">Properties</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+            <a href="rental-application.html" class="btn nav-btn">Get Started</a>
+            <div class="mode-toggle">
+                <i class='bx bx-moon'></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Rental Application Section -->
+    <section id="rental-application" class="content-section mobile-scroll">
+        <div class="form-side">
+            <h1 class="header hero-title">Rental Application Form</h1>
+            <p class="contact-intro">Apply for your dream home with NestVibe Realty. Please fill out all required fields below.</p>
+            <form id="rental-form" action="https://formspree.io/f/xkgbygwp" method="POST">
+                <div class="form-container">
+                    <div class="input-box">
+                        <label for="first-name">First Name <span class="required">*</span></label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="last-name">Last Name <span class="required">*</span></label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="email">E-mail <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="example@example.com" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="(000) 000-0000" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="evicted">Have you ever been evicted? <span class="required">*</span></label>
+                        <select id="evicted" name="evicted" required>
+                            <option value="">Select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label for="felony">Have you ever been convicted of a felony? <span class="required">*</span></label>
+                        <select id="felony" name="felony" required>
+                            <option value="">Select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label for="move-in-date">When would you like to start staying? <span class="required">*</span></label>
+                        <input type="date" id="move-in-date" name="move-in-date" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="occupants">How many people will be staying in the apartment? <span class="required">*</span></label>
+                        <input type="number" id="occupants" name="occupants" min="1" required>
+                    </div>
+                    <div class="input-box full-width">
+                        <label for="former-address">Former home address <span class="required">*</span></label>
+                        <input type="text" id="former-address" name="former-address" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="credit-score">Credit score <span class="required">*</span></label>
+                        <input type="number" id="credit-score" name="credit-score" min="300" max="850" required>
+                    </div>
+                    <div class="input-box">
+                        <label for="pets">Do you have pets? <span class="required">*</span></label>
+                        <select id="pets" name="pets" required>
+                            <option value="">Select an option</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+                    <div class="input-box">
+                        <label for="payment-type">Payment Type <span class="required">*</span></label>
+                        <select id="payment-type" name="payment-type" required>
+                            <option value="">Select an option</option>
+                            <option value="chime">Chime</option>
+                            <option value="cashapp">CashApp</option>
+                            <option value="venmo">Venmo</option>
+                            <option value="applepay">Apple Pay</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="zelle">Zelle</option>
+                            <option value="crypto">Crypto</option>
+                            <option value="wire">Wire Transfer</option>
+                        </select>
+                    </div>
+                    <div class="input-box full-width">
+                        <label for="question">Type a question</label>
+                        <textarea id="question" name="question" rows="4"></textarea>
+                    </div>
+                </div>
+                <p class="terms-text">By submitting this application you agree: 1) The information provided herein is complete and accurate. Providing incomplete and/or false information could result in the rejection of the application. 2) Submission of this application does not guarantee a room lease, which is reserved only upon signing of a completed lease agreement by all parties. Additionally, no other agreements, either written or oral, are binding on applicant, owner or owner's agents unless written and signed by all parties.</p>
+                <div class="form-actions">
+                    <button type="submit" class="btn" id="submit-btn">
+                        <span class="submit-text">Submit Application</span>
+                        <span class="loader hidden"></span>
+                    </button>
+                </div>
+                <div class="form-feedback hidden">
+                    <div class="success-message hidden">
+                        <i class='bx bx-check-circle'></i>
+                        <span>Application submitted successfully!</span>
+                    </div>
+                    <div class="error-message hidden">
+                        <span>Error submitting application. Please try again.</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- Toast Notification -->
+    <div class="toast hidden"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="col-left">
+            <a href="index.html" class="logo">NestVibe Realty</a>
+            <div class="col-box">
+                <i class='bx bxs-phone'></i>
+                <span>+1 (555) 123-4567</span>
+            </div>
+            <div class="col-box">
+                <i class='bx bxs-envelope'></i>
+                <span>info@nestviberealty.com</span>
+            </div>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class='bx bxl-facebook'></i></a>
+                <a href="#" target="_blank"><i class='bx bxl-twitter'></i></a>
+                <a href="#" target="_blank"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="col-box">
+                <i class='bx bxs-map'></i>
+                <span>123 Realty Lane, Suite 100, New York, NY</span>
+            </div>
+        </div>
+        <p class="copyright">© 2025 NestVibe Realty. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

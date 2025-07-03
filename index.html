@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NestVibe Realty - Find Your Perfect Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+
+    <!-- Loading -->
+    <div class="loader" id="loader">
+        <svg class="house-loader" viewBox="0 0 100 100">
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#FDC107" />
+                    <stop offset="100%" style="stop-color:#FF6B6B" />
+                </linearGradient>
+            </defs>
+            <path class="house-path" d="M20,80 L50,50 L80,80 L80,90 L60,90 L60,70 L40,70 L40,90 L20,90 Z" />
+            <circle class="bubble" cx="30" cy="70" r="3" />
+            <circle class="bubble" cx="40" cy="60" r="4" />
+            <circle class="bubble" cx="50" cy="50" r="5" />
+            <circle class="bubble" cx="60" cy="60" r="4" />
+            <circle class="bubble" cx="70" cy="70" r="3" />
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="menu-toggle-container">
+            <div class="menu-toggle">
+                <i class='bx bx-menu' id="menu-open"></i>
+                <i class='bx bx-x' id="menu-close" style="display: none;"></i>
+            </div>
+        </div>
+        <a href="index.html" class="logo">NestVibe Realty</a>
+        <a href="rental-application.html" class="mobile-get-started">Get Started</a>
+        <div class="nav-right">
+            <ul class="links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="properties.html">Properties</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+            <a href="rental-application.html" class="btn nav-btn">Get Started</a>
+            <div class="mode-toggle">
+                <i class='bx bx-moon'></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="content-section mobile-scroll">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="Real estste2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-container">
+            <h1 class="header hero-title">Discover Your Dream Home with NestVibe Realty</h1>
+            <p class="hero-text">Explore modern, comfortable, and affordable rental apartments tailored to your lifestyle across the United States.</p>
+            <a href="rental-application.html" class="btn hero-btn">Fill Application Form</a>
+        </div>
+    </section>
+
+    <!-- Location Filter Section -->
+    <section id="location-filter" class="content-section">
+        <div class="filter-container">
+            <h2 class="section-header">Find Your Perfect Location</h2>
+            <p class="section-text">Search for available properties in your preferred location across the United States.</p>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="state-select">State</label>
+                    <select id="state-select" class="filter-select">
+                        <option value="">All States</option>
+                        <option value="new-york">New York</option>
+                        <option value="texas">Texas</option>
+                        <option value="california">California</option>
+                        <option value="florida">Florida</option>
+                        <option value="illinois">Illinois</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="city-select">City</label>
+                    <select id="city-select" class="filter-select">
+                        <option value="">All Cities</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="property-type">Property Type</label>
+                    <select id="property-type" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="studio">Studio</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="house">House</option>
+                        <option value="penthouse">Penthouse</option>
+                    </select>
+                </div>
+                <button class="btn filter-btn" id="apply-filter">Search Properties</button>
+            </div>
+            <div class="filter-results" id="filter-results">
+                <div class="results-count" id="results-count"></div>
+                <div class="filtered-properties" id="filtered-properties"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="content-section mobile-scroll">
+        <div class="about-container">
+            <div class="about-stats">
+                <div class="stat-box">
+                    <h3>1500+</h3>
+                    <p>Happy Tenants</p>
+                </div>
+                <div class="stat-box">
+                    <h3>500+</h3>
+                    <p>Properties Managed</p>
+                </div>
+                <div class="stat-box">
+                    <h3>25+</h3>
+                    <p>Cities Served</p>
+                </div>
+            </div><br><br>
+            <h2 class="section-header">About NestVibe Realty</h2>
+            <p class="section-text">At NestVibe Realty, we believe in creating spaces where you can thrive. Founded in 2020, our mission is to connect you with rental properties that feel like home across the United States. Led by our visionary CEO, Cersei Lanister, we offer quality, convenience, and community in every property.</p>
+            <div class="ceo-profile">
+                <div class="ceo-image" style="background-image: url('images/owner.jpg')"></div>
+                <div class="ceo-info">
+                    <h3>Cersei Lanister</h3>
+                    <p>CEO & Founder</p>
+                    <p class="ceo-text">With over 15 years in real estate, Cersei Lanister leads NestVibe with a passion for creating vibrant communities across America.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Rentals Section -->
+    <section id="available-rentals" class="content-section mobile-scroll">
+        <div class="rentals-container">
+            <h2 class="section-header">Featured Properties</h2>
+            <p class="section-text">Discover our latest rental properties across the United States, ready for you to move in and make your own.</p>
+            <div class="rental-grid">
+                <div class="rental-card slide-in-left">
+                    <div class="rental-image" style="background-image: url('images/Manhattan.jpg')"></div>
+                    <h3>Manhattan Studio</h3>
+                    <p>$2,850/month | 1 Bed | 1 Bath | New York, NY</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+                <div class="rental-card slide-in-right">
+                    <div class="rental-image" style="background-image: url('images/Austin.jpg')"></div>
+                    <h3>Austin Family Home</h3>
+                    <p>$2,200/month | 3 Bed | 2 Bath | Austin, TX</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+                <div class="rental-card slide-in-left">
+                    <div class="rental-image" style="background-image: url('images/Penthouse.jpg')"></div>
+                    <h3>Miami Penthouse</h3>
+                    <p>$4,500/month | 2 Bed | 2 Bath | Miami, FL</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+                <div class="rental-card slide-in-right">
+                    <div class="rental-image" style="background-image: url('images/Brooklyn\ Loft.jpg')"></div>
+                    <h3>Brooklyn Loft</h3>
+                    <p>$3,200/month | 2 Bed | 1 Bath | Brooklyn, NY</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+                <div class="rental-card slide-in-left">
+                    <div class="rental-image" style="background-image: url('images/Dallas.jpg')"></div>
+                    <h3>Dallas Modern Apartment</h3>
+                    <p>$1,800/month | 2 Bed | 2 Bath | Dallas, TX</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+                <div class="rental-card slide-in-right">
+                    <div class="rental-image" style="background-image: url('images/Chicago\ Cityscape.jpg')"></div>
+                    <h3>Chicago Cityscape</h3>
+                    <p>$2,600/month | 3 Bed | 2 Bath | Chicago, IL</p>
+                    <a href="rental-application.html" class="btn rental-btn">Rent Now</a>
+                </div>
+            </div>
+            <a href="properties.html" class="btn more-btn">View All Properties</a>
+        </div>
+    </section>
+
+    <!-- Meet Our Team Section -->
+    <section id="team" class="content-section mobile-scroll">
+        <div class="team-container">
+            <h2 class="section-header">Meet Our Team</h2>
+            <p class="section-text">Our dedicated team is here to guide you every step of the way.</p>
+            <div class="team-grid">
+                <div class="team-card fade-in">
+                    <div class="team-image" style="background-image: url('images/Alma.jpg')"></div>
+                    <h3>Alma R. Davis</h3>
+                    <p>Property Manager</p>
+                    <p class="team-text">Alma ensures every property meets our high standards.</p>
+                </div>
+                <div class="team-card fade-in">
+                    <div class="team-image" style="background-image: url('images/Richard.jpg')"></div>
+                    <h3>Richard L. Swaney</h3>
+                    <p>Leasing Agent</p>
+                    <p class="team-text">Richard helps you find the perfect home with a smile.</p>
+                </div>
+                <div class="team-card fade-in">
+                    <div class="team-image" style="background-image: url('images/Margaret.jpg')"></div>
+                    <h3>Margaret E. Turnbull</h3>
+                    <p>Customer Support Lead</p>
+                    <p class="team-text">Margaret is always ready to assist with your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section with Carousel -->
+    <section id="partners" class="content-section mobile-scroll">
+        <div class="partners-container">
+            <h2 class="section-header">Our Partners</h2>
+            <p class="section-text">We collaborate with trusted brands to ensure quality and reliability for our tenants.</p>
+            <div class="partner-carousel">
+                <div class="partner-track">
+                    <div class="partner-logo">
+                        <img src="images/Skyline Builders.jpg" alt="Skyline Builders" class="partner-img">
+                        <span>Skyline Builders</span>
+                    </div>
+                    <div class="partner-logo">
+                        <img src="images/Urban Homes.jpg" alt="Urban Homes" class="partner-img">
+                        <span>Urban Homes</span>
+                    </div>
+                    <div class="partner-logo">
+                        <img src="images/Elite-Properties-logo.jpg" alt="Elite Properties" class="partner-img">
+                        <span>Elite Properties</span>
+                    </div>
+                    <div class="partner-logo">
+                        <img src="images/PeakSecurity-logo.jpg" alt="SafeNest Security" class="partner-img">
+                        <span>Peak Security</span>
+                    </div>
+                    <div class="partner-logo">
+                        <img src="images/Metro Finance-logo.jpg" alt="Metro Finance" class="partner-img">
+                        <span>Metro Finance</span>
+                    </div>
+                    <div class="partner-logo">
+                        <img src="images/Premier Services logo.jpg" alt="Premier Services" class="partner-img">
+                        <span>Premier Services</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="content-section mobile-scroll">
+        <div class="testimonials-container">
+            <h2 class="section-header">What Our Tenants Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in">
+                    <p>"NestVibe made finding my dream apartment in Manhattan so easy! The process was smooth, and the team was incredibly supportive."</p>
+                    <h4>Sarah Johnson</h4>
+                    <span>Tenant, Manhattan Studio</span>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p>"I love my new home in Austin! The property is modern, and NestVibe's customer service is top-notch."</p>
+                    <h4>Michael Chen</h4>
+                    <span>Tenant, Austin Family Home</span>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p>"The application process was seamless, and the Miami penthouse quality exceeded my expectations."</p>
+                    <h4>Emily Rodriguez</h4>
+                    <span>Tenant, Miami Penthouse</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA Section -->
+    <section id="contact-cta" class="content-section mobile-scroll">
+        <div class="cta-container">
+            <h2 class="section-header">Ready to Find Your Home?</h2>
+            <p class="section-text">Connect with our agents to start your journey with NestVibe Realty.</p>
+            <a href="contact.html" class="btn cta-btn">Speak with Our Agents</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="col-left">
+            <div class="col-box">
+                <i class='bx bx-envelope'></i>
+                <span>contact@nestviberealty.com</span>
+            </div>
+            <div class="col-box">
+                <i class='bx bx-phone'></i>
+                <span>+1 (555) 123-4567</span>
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="social-icons">
+                <a href="#"><i class='bx bxl-facebook'></i></a>
+                <a href="#"><i class='bx bxl-twitter'></i></a>
+                <a href="#"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 NestVibe Realty. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-toggle" id="chat-toggle">
+            <i class='bx bx-message-dots'></i>
+            <div class="chat-notification" id="chat-notification">1</div>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <div class="chat-header">
+                <h4>Chat with NestVibe</h4>
+                <button class="chat-close" id="chat-close">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <p>Hello! Welcome to NestVibe Realty. How can I help you find your perfect home today?</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message..." />
+                <button id="send-message">
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
