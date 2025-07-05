@@ -514,6 +514,16 @@
         }
       }, { passive: false });
     });
+
+    // new code down
+      window.addEventListener("load", () => {
+    const messagesContainer = document.getElementById("chat-messages");
+
+    // Scroll to bottom after a slight delay to allow mobile layout to settle
+    setTimeout(() => {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }, 100); // 100ms delay allows for layout stabilization
+  });
   </script>
 </body>
 </html>
