@@ -2051,36 +2051,46 @@ body.dark-mode footer {
         display: none !important;
     }
 }
+
 /* Add to existing CSS */
 @media (max-width: 768px) {
     @keyframes autoBlurAnimation {
-        0% { filter: blur(20px); opacity: 0; }
-        20%, 80% { filter: blur(0); transform: translateY(0); opacity: 1; }
-        100% { filter: blur(20px); transform: translateY(-50px); opacity: 0.5; }
+        0% { filter: blur(10px); opacity: 0.3; }
+        10%, 90% { filter: blur(0); transform: translateY(0); opacity: 1; }
+        100% { filter: blur(5px); transform: translateY(-20px); opacity: 0.9; }
     }
     .autoBlur {
         animation: autoBlurAnimation linear both;
-        animation-timeline: view(90% 10%);
+        animation-timeline: view(100% 0%);
     }
     #hero {
         min-height: 80vh !important;
         opacity: 1 !important;
         display: flex !important;
         visibility: visible !important;
+        position: relative !important;
     }
     .hero-video {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
         z-index: 0 !important;
+        filter: inherit !important; /* Inherit blur from parent but allow override */
     }
     .hero-container, .hero-title, .hero-text, .hero-btn {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
         z-index: 2 !important;
+        filter: none !important; /* Prevent blur on text elements */
+        position: relative !important;
     }
     .hero-container {
         padding: 1em !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 }
