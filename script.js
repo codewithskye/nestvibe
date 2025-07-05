@@ -532,27 +532,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function toggleChat(e) {
-        console.log('[NestVibe] toggleChat triggered, window.innerWidth:', window.innerWidth);
-        if (!elements.chatContainer) {
-            console.log('[NestVibe] chatContainer not found');
-            return;
-        }
-    
-        if (window.innerWidth <= 768) {
-            console.log('[NestVibe] Mobile view detected, redirecting to chat.html');
-            window.location.href = 'chat.html';
+    function toggleChat() {
+        if (!elements.chatContainer) return;
+
+        const isActive = elements.chatContainer.classList.contains('active');
+        const chatNotification = document.getElementById('chat-notification');
+
+        if (isActive) {
+            elements.chatContainer.classList.remove('active');
         } else {
-            console.log('[NestVibe] Desktop view, toggling chat container');
-            const isActive = elements.chatContainer.classList.contains('active');
-            elements.chatContainer.classList.toggle('active');
-    
-            const chatNotification = document.getElementById('chat-notification');
-            if (!isActive && chatNotification) {
+            elements.chatContainer.classList.add('active');
+            if (chatNotification) {
                 chatNotification.style.display = 'none';
             }
-    
-            if (!isActive && elements.chatInput) {
+            if (elements.chatInput) {
                 setTimeout(() => elements.chatInput.focus(), 100);
             }
         }
@@ -659,27 +652,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Navigation scroll behavior
-    let lastScrollY = 0;
-
     function updateNavigation() {
         if (!elements.nav) return;
-    
+
         const scrollY = window.scrollY;
-        
-        if (scrollY > lastScrollY && scrollY > 100) {
-            // Scrolling down, hide nav
-            elements.nav.classList.add('hidden-nav');
+        if (scrollY > 100) {
+            elements.nav.classList.add('transparent');
         } else {
-            // Scrolling up or at top, show nav
-            elements.nav.classList.remove('hidden-nav');
-            if (scrollY > 100) {
-                elements.nav.classList.add('scrolled');
-            } else {
-                elements.nav.classList.remove('scrolled');
-            }
+            elements.nav.classList.remove('transparent');
         }
-        
-        lastScrollY = scrollY;
     }
 
     function initScrollAnimations() {
@@ -904,3 +885,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
 });
+
