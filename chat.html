@@ -2,95 +2,185 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Chat with NestVibe</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <script defer src="script.js"></script>
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overscroll-behavior: contain;
+      -webkit-user-select: text;
+      user-select: text;
+      touch-action: manipulation;
+    }
+
     .chat-fullscreen {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--card-bg);
+      overflow: hidden;
+      font-size: 16px; /* Ensure readable font size */
     }
 
     .chat-header {
-        background: var(--gradient);
-        color: white;
-        padding: 1em;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 1.2em;
+      background: var(--gradient);
+      color: white;
+      padding: 0.8em 1em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: clamp(1em, 4vw, 1.1em);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .chat-time-greeting {
-        padding: 0.5em 1em;
-        color: var(--text-color);
-        text-align: center;
-        font-size: 1em;
-        background: var(--background);
-        opacity: 0.8;
+      padding: 0.5em 1em;
+      color: var(--text-color);
+      text-align: center;
+      font-size: clamp(0.9em, 3.5vw, 1em);
+      background: var(--background);
+      opacity: 0.8;
     }
 
     .chat-messages {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1em;
-        display: flex;
-        flex-direction: column;
-        gap: 1em;
+      flex: 1;
+      overflow-y: auto;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      touch-action: pan-y;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 0.8em 1em;
+      border-radius: 15px;
+      line-height: 1.4;
+      font-size: clamp(0.9em, 3.5vw, 1em);
+    }
+
+    .bot-message {
+      background: #f0f0f0;
+      align-self: flex-start;
+      color: #333;
+    }
+
+    .user-message {
+      background: var(--gradient);
+      color: white;
+      align-self: flex-end;
     }
 
     .chat-input-container {
-        display: flex;
-        padding: 1em;
-        border-top: 1px solid #eee;
-        gap: 0.5em;
+      display: flex;
+      padding: 0.8em;
+      border-top: 1px solid #eee;
+      gap: 0.5em;
+      background: var(--card-bg);
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
     }
 
     .chat-input-container input {
-        flex: 1;
-        padding: 0.8em;
-        border-radius: 20px;
-        border: 1px solid #ccc;
-        outline: none;
+      flex: 1;
+      padding: 0.8em 1em;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: clamp(0.9em, 3.5vw, 1em);
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-user-select: text;
+      user-select: text;
+      touch-action: manipulation;
+    }
+
+    .chat-input-container input:focus {
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(253, 193, 7, 0.2);
     }
 
     .chat-input-container button {
-        background: var(--gradient);
-        border: none;
-        color: white;
-        padding: 0.8em 1em;
-        border-radius: 50%;
-        font-size: 1.2em;
-        cursor: pointer;
-        transition: transform 0.2s ease;
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 0.8em;
+      border-radius: 50%;
+      font-size: clamp(1em, 4vw, 1.2em);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
     }
 
     .chat-input-container button:hover {
-        transform: scale(1.1);
+      transform: scale(1.1);
     }
 
     .close-btn {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 1.5em;
-        cursor: pointer;
-        padding: 0.2em;
-        border-radius: 50%;
-        transition: background 0.3s ease;
+      background: none;
+      border: none;
+      color: white;
+      font-size: clamp(1.2em, 4.5vw, 1.5em);
+      cursor: pointer;
+      padding: 0.2em;
+      border-radius: 50%;
+      transition: background 0.3s ease;
     }
 
     .close-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Ensure dark mode compatibility */
+    body.dark-mode .bot-message {
+      background: #2a2a3e;
+      color: #fff;
+    }
+
+    body.dark-mode .chat-input-container input {
+      background: var(--background);
+      color: var(--text-color);
+      border-color: #444;
+    }
+
+    /* Prevent zooming and improve touch responsiveness */
+    @media (max-width: 768px) {
+      .chat-fullscreen {
+        width: 100vw;
+        max-width: 100%;
+        font-size: 14px;
+      }
+      .chat-messages {
+        padding-bottom: 1em;
+      }
+      .chat-input-container {
+        padding: 0.8em 0.5em;
+      }
+      .chat-input-container input {
+        padding: 0.7em;
+        font-size: clamp(0.85em, 3.8vw, 0.95em);
+      }
+      .chat-input-container button {
+        padding: 0.7em;
+        width: 36px;
+        height: 36px;
+      }
     }
   </style>
 </head>
 <body class="dark-mode">
-
   <div class="chat-fullscreen">
     <div class="chat-header">
       <span>NestVibe Assistant</span>
@@ -116,48 +206,314 @@
   </div>
 
   <script>
-    function showTimeGreeting() {
-        const greetingEl = document.getElementById('chat-time-greeting');
-        
-        // Get current hour in WAT (Africa/Lagos, UTC+1) for greeting logic
-        const hour = new Date().toLocaleString('en-US', { 
-            hour: 'numeric', 
-            hour12: false, 
-            timeZone: 'Africa/Lagos' 
-        });
-        
-        // Get formatted time and date in WAT
-        const timeDate = new Date().toLocaleString('en-US', { 
-            hour: 'numeric', 
-            minute: '2-digit', 
-            hour12: true, 
-            weekday: 'long', 
-            month: 'long', 
-            day: 'numeric', 
-            year: 'numeric', 
-            timeZone: 'Africa/Lagos' 
-        });
-        
-        let greeting = "Hello";
-        
-        // Convert hour to number for comparison
-        const hourNum = parseInt(hour);
-        
-        // Adjusted greeting logic to include midnight to 11:59 AM as morning
-        if (hourNum >= 0 && hourNum < 12) {
-            greeting = "Good morning!";
-        } else if (hourNum >= 12 && hourNum < 17) {
-            greeting = "Good afternoon!";
-        } else {
-            greeting = "Good evening!";
-        }
-        
-        // Display greeting with time and date
-        greetingEl.textContent = `${greeting} It's ${timeDate} 👋`;
+    // Chat responses database (from script.js)
+    const chatResponses = {
+      'hello': {
+        triggers: ['hello', 'hey', 'hi', 'greetings', 'good morning', 'good afternoon', 'good evening'],
+        response: 'Hello! Welcome to NestVibe Realty. How can I assist you with finding your perfect rental home across the United States?'
+      },
+      'how are you': {
+        triggers: ['how are you', 'are you okay', 'hows it going', 'how you doing', 'whats up'],
+        response: 'I\'m doing great, thank you! I\'m here to help you find the perfect rental property. What can I assist you with today?'
+      },
+      'price': {
+        triggers: ['price', 'cost', 'pricing', 'rent', 'how much', 'expensive', 'cheap', 'affordable', 'budget'],
+        response: 'Our properties range from $1,650/month for resort living in Orlando to $4,500/month for a Miami penthouse. We have options in New York ($2,400-$3,200), Texas ($1,800-$2,200), California ($3,500-$3,800), and more. Which location interests you?'
+      },
+      'availability': {
+        triggers: ['availability', 'available', 'vacant', 'open', 'free', 'properties'],
+        response: 'We have rentals available across the US including New York (Manhattan, Brooklyn, Queens), Texas (Austin, Dallas, Houston), California (LA, San Francisco), Florida (Miami, Orlando), and Illinois (Chicago, Naperville). Which area are you interested in?'
+      },
+      'application': {
+        triggers: ['application', 'apply', 'form', 'rental application', 'how to apply'],
+        response: 'You can apply for a rental through our online form. <button onclick="fillChatInput(\'application process\')" class="btn chat-btn">Tell me about the application process</button> or <a href="rental-application.html" class="btn chat-btn">Apply Now</a>'
+      },
+      'application process': {
+        triggers: ['application process', 'how to apply', 'application steps'],
+        response: 'Our application process is simple: 1) Fill out the online form with personal info, 2) Provide employment/income details, 3) Submit credit score and references, 4) Choose payment method. The whole process takes about 10 minutes. Need help with any specific part?'
+      },
+      'contact': {
+        triggers: ['contact', 'reach', 'call', 'email', 'support', 'staff', 'agent'],
+        response: 'You can reach us at contact@nestviberealty.com or +1 (555) 123-4567. Want to speak directly with our team? <a href="contact.html" class="btn chat-btn">Contact Our Agents</a>'
+      },
+      'locations': {
+        triggers: ['location', 'locations', 'where', 'city', 'area', 'states'],
+        response: 'We offer properties in 5 major states: New York (Manhattan, Brooklyn, Queens), Texas (Austin, Dallas, Houston), California (LA, San Francisco), Florida (Miami, Orlando), and Illinois (Chicago, Naperville). Which state interests you most?'
+      },
+      'new york': {
+        triggers: ['new york', 'nyc', 'manhattan', 'brooklyn', 'queens'],
+        response: 'Great choice! In New York, we have: Manhattan Studio ($2,850/month), Brooklyn Loft ($3,200/month), and Queens Family Apartment ($2,400/month). All feature modern amenities and convenient transportation. Which would you like to know more about?'
+      },
+      'texas': {
+        triggers: ['texas', 'austin', 'dallas', 'houston'],
+        response: 'Texas offers great value! We have: Austin Family Home ($2,200/month), Dallas Modern Apartment ($1,800/month), and Houston Suburban Home ($2,100/month). Perfect for families and professionals. Which city interests you?'
+      },
+      'california': {
+        triggers: ['california', 'los angeles', 'san francisco', 'la', 'sf'],
+        response: 'California properties include: LA Modern Apartment ($3,800/month) and San Francisco Studio ($3,500/month). Both offer premium locations with tech amenities. Which would you prefer?'
+      },
+      'amenities': {
+        triggers: ['amenities', 'features', 'facility', 'facilities', 'perks', 'included'],
+        response: 'Our properties include modern amenities like high-speed internet, parking, security, fitness centers, and more. Premium properties offer rooftop access, smart home features, and concierge services. Which property\'s amenities would you like details about?'
+      },
+      'pets': {
+        triggers: ['pet', 'pets', 'dog', 'cat', 'animal', 'pet-friendly'],
+        response: 'Most of our properties are pet-friendly! Pet policies vary by location with deposits typically ranging from $200-$500. Properties like our Austin and Houston homes are especially great for pets with yards. Do you have pets?'
+      },
+      'move-in': {
+        triggers: ['move-in', 'move in', 'moving', 'start date', 'when can i move'],
+        response: 'Move-in dates vary by property availability. Most can accommodate move-ins within 2-4 weeks. You can specify your preferred date in the application form. When are you planning to move?'
+      },
+      'lease': {
+        triggers: ['lease', 'contract', 'term', 'duration', 'rental term', 'how long'],
+        response: 'We offer flexible lease terms! Standard leases are 12 months, but we also have 6-month and month-to-month options for select properties. Longer leases often come with better rates. What term works best for you?'
+      },
+      'viewing': {
+        triggers: ['viewing', 'tour', 'see', 'visit', 'show', 'schedule', 'look at'],
+        response: 'We offer virtual tours and in-person viewings! You can schedule a tour through our contact form or by calling us. Virtual tours are available 24/7. Would you prefer virtual or in-person viewing?'
+      },
+      'deposit': {
+        triggers: ['deposit', 'security deposit', 'bond', 'upfront', 'down payment'],
+        response: 'Security deposits typically range from 1-2 months rent depending on the property and your credit score. First month\'s rent is due at signing. Some properties offer reduced deposits for excellent credit. Want specifics for a particular property?'
+      },
+      'maintenance': {
+        triggers: ['maintenance', 'repair', 'fix', 'service', 'support', 'broken'],
+        response: 'We provide 24/7 maintenance support for all properties! Report issues through our tenant portal, email, or emergency hotline. Most non-emergency repairs are completed within 48 hours. Emergency issues are handled immediately.'
+      },
+      'payment': {
+        triggers: ['payment', 'pay', 'method', 'billing', 'transaction', 'how to pay'],
+        response: 'We accept multiple payment methods: Chime, CashApp, Venmo, Apple Pay, PayPal, Zelle, Crypto, and Wire Transfer. Auto-pay discounts available. Rent is due on the 1st of each month. Which payment method do you prefer?'
+      },
+      'bedrooms': {
+        triggers: ['bedroom', 'bedrooms', 'beds', 'how many rooms', 'studio', '1 bed', '2 bed', '3 bed', '4 bed'],
+        response: 'We have options for everyone! Studios (Manhattan, San Francisco), 1-2 bedroom apartments (Brooklyn, Dallas, LA), 3 bedroom apartments (Chicago, Queens), and 4 bedroom homes (Houston, Naperville). How many bedrooms do you need?'
+      },
+      'credit score': {
+        triggers: ['credit score', 'credit', 'credit check', 'score required'],
+        response: 'We work with various credit scores! Generally, we prefer 650+ but consider applications with 600+. Lower scores may require additional deposit or co-signer. We focus on overall financial picture, not just credit score. What\'s your approximate credit range?'
+      },
+      'income': {
+        triggers: ['income', 'salary', 'employment', 'job', 'work', 'income requirement'],
+        response: 'Typically, we require income to be 3x the monthly rent. For example, our $2,200 Austin home would need $6,600+ monthly income. We accept various income sources including employment, freelance, and investments. Self-employed? We can work with bank statements.'
+      },
+      'utilities': {
+        triggers: ['utilities', 'electric', 'gas', 'water', 'internet', 'cable', 'electricity'],
+        response: 'Utility inclusion varies by property. Many include water/trash, some include internet. Electric/gas are typically tenant responsibility. All details are clearly listed in each property description. Want specifics for a particular property?'
+      },
+      'parking': {
+        triggers: ['parking', 'garage', 'car', 'vehicle', 'space'],
+        response: 'Most properties include parking! Urban locations (Manhattan, SF) may have paid garage spots ($150-300/month), while suburban properties (Austin, Houston) typically include free parking. Street parking also available in most areas.'
+      },
+      'neighborhoods': {
+        triggers: ['neighborhood', 'area', 'safe', 'safety', 'schools', 'nearby'],
+        response: 'All our properties are in safe, desirable neighborhoods! We carefully select locations near good schools, shopping, and transportation. Each listing includes neighborhood highlights and nearby amenities. Which area are you most interested in?'
+      },
+      'transportation': {
+        triggers: ['transportation', 'subway', 'bus', 'train', 'transit', 'commute'],
+        response: 'Great transit access at all locations! NYC properties near subway lines, Chicago near L train, SF near BART/Muni. Texas and Florida properties have excellent highway access and some public transit. What\'s your commute needs?'
+      },
+      'furnished': {
+        triggers: ['furnished', 'furniture', 'unfurnished', 'appliances'],
+        response: 'We offer both furnished and unfurnished options! Most come with essential appliances (refrigerator, stove, dishwasher). Some premium properties offer full furnishing packages. Unfurnished gives you flexibility to personalize. Which do you prefer?'
+      },
+      'help': {
+        triggers: ['help', 'assistance', 'support', 'confused', 'dont understand'],
+        response: 'I\'m here to help! I can assist with: property information, pricing, application process, scheduling tours, neighborhood details, amenities, and more. What specific question do you have? <button onclick="fillChatInput(\'show me properties under $2500\')" class="btn chat-btn">Show properties under $2500</button>'
+      },
+      'thank you': {
+        triggers: ['thank you', 'thanks', 'appreciate', 'helpful'],
+        response: 'You\'re very welcome! I\'m glad I could help. Feel free to ask more questions anytime, or if you\'re ready to move forward: <a href="rental-application.html" class="btn chat-btn">Start Your Application</a>'
+      },
+      'goodbye': {
+        triggers: ['goodbye', 'bye', 'see you later', 'talk later', 'thanks bye'],
+        response: 'Goodbye! Thanks for your interest in NestVibe Realty. Don\'t hesitate to reach out when you\'re ready to find your perfect home. Have a great day!'
+      }
+    };
+
+    // Property data for filtering
+    const propertyData = [
+      { state: 'new-york', city: 'manhattan', type: 'studio', price: 2850, name: 'Manhattan Studio' },
+      { state: 'texas', city: 'austin', type: 'house', price: 2200, name: 'Austin Family Home' },
+      { state: 'florida', city: 'miami', type: 'penthouse', price: 4500, name: 'Miami Penthouse' },
+      { state: 'new-york', city: 'brooklyn', type: 'apartment', price: 3200, name: 'Brooklyn Loft' },
+      { state: 'texas', city: 'dallas', type: 'apartment', price: 1800, name: 'Dallas Modern Apartment' },
+      { state: 'illinois', city: 'chicago', type: 'apartment', price: 2600, name: 'Chicago Cityscape' },
+      { state: 'california', city: 'los-angeles', type: 'apartment', price: 3800, name: 'LA Modern Apartment' },
+      { state: 'texas', city: 'houston', type: 'house', price: 2100, name: 'Houston Suburban Home' },
+      { state: 'california', city: 'san-francisco', type: 'studio', price: 3500, name: 'San Francisco Studio' },
+      { state: 'florida', city: 'orlando', type: 'apartment', price: 1650, name: 'Orlando Resort Living' },
+      { state: 'new-york', city: 'queens', type: 'apartment', price: 2400, name: 'Queens Family Apartment' },
+      { state: 'illinois', city: 'naperville', type: 'house', price: 2800, name: 'Naperville Executive Home' }
+    ];
+
+    // Utility functions
+    function addChatMessage(message, sender = 'bot') {
+      const chatMessages = document.getElementById('chat-messages');
+      if (!chatMessages) return;
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}-message`;
+      const messageContent = document.createElement('p');
+      messageContent.innerHTML = message;
+      messageDiv.appendChild(messageContent);
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-    
-    document.addEventListener('DOMContentLoaded', showTimeGreeting);
-    </script>
-<script src="script2.js"></script>
+
+    function getChatResponse(message) {
+      const lowerMessage = message.toLowerCase().trim();
+
+      if (lowerMessage.includes('under') && lowerMessage.includes('$')) {
+        const priceMatch = lowerMessage.match(/\$?(\d+)/);
+        if (priceMatch) {
+          const maxPrice = parseInt(priceMatch[1]);
+          const affordableProperties = propertyData.filter(prop => prop.price <= maxPrice);
+          if (affordableProperties.length > 0) {
+            const propertyList = affordableProperties.map(prop =>
+              `• ${prop.name} - $${prop.price}/month`
+            ).join('<br>');
+            return `Here are properties under $${maxPrice}:<br><br>${propertyList}<br><br><a href="properties.html" class="btn chat-btn small">View All Properties</a>`;
+          }
+          return `I don't currently have properties under $${maxPrice}, but our most affordable option is the Orlando Resort Living at $1,650/month. <a href="properties.html" class="btn chat-btn small">See All Options</a>`;
+        }
+      }
+
+      for (const [key, data] of Object.entries(chatResponses)) {
+        if (data.triggers.some(trigger => lowerMessage.includes(trigger))) {
+          return data.response;
+        }
+      }
+
+      return `I'm not sure how to answer that, but I can help with these topics:<br><br>
+        <button onclick="fillChatInput('show me properties under $2500')" class="btn chat-btn small">Properties under $2500</button>
+        <button onclick="fillChatInput('pet-friendly properties')" class="btn chat-btn small">Pet-friendly properties</button>
+        <button onclick="fillChatInput('application process')" class="btn chat-btn small">Application process</button><br><br>
+        Still need help? <a href="contact.html" class="btn chat-btn small">Contact Us</a>`;
+    }
+
+    function playNotificationSound(type = 'send') {
+      try {
+        const audio = new Audio('audio1.mp3');
+        audio.play().catch(error => console.log('Audio playback failed:', error));
+      } catch (error) {
+        console.log('Audio not available:', error);
+      }
+    }
+
+    function sendChatMessage() {
+      const chatInput = document.getElementById('chat-input');
+      if (!chatInput) return;
+
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      playNotificationSound('send');
+      addChatMessage(message, 'user');
+      chatInput.value = '';
+
+      showTypingIndicator();
+
+      setTimeout(() => {
+        hideTypingIndicator();
+        const response = getChatResponse(message);
+        addChatMessage(response, 'bot');
+        playNotificationSound('receive');
+      }, 1000);
+    }
+
+    function showTypingIndicator() {
+      const chatMessages = document.getElementById('chat-messages');
+      if (!chatMessages) return;
+
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot-message typing-indicator';
+      typingDiv.id = 'typing-indicator';
+      typingDiv.innerHTML = `
+        <p>
+          <div class="typing-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </p>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+      const typingIndicator = document.getElementById('typing-indicator');
+      if (typingIndicator) typingIndicator.remove();
+    }
+
+    window.fillChatInput = function(query) {
+      const chatInput = document.getElementById('chat-input');
+      if (chatInput) {
+        chatInput.value = query;
+        chatInput.focus();
+        sendChatMessage();
+      }
+    };
+
+    function showTimeGreeting() {
+      const greetingEl = document.getElementById('chat-time-greeting');
+      const hour = new Date().toLocaleString('en-US', {
+        hour: 'numeric',
+        hour12: false,
+        timeZone: 'Africa/Lagos'
+      });
+      const timeDate = new Date().toLocaleString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'Africa/Lagos'
+      });
+      let greeting = "Hello";
+      const hourNum = parseInt(hour);
+      if (hourNum >= 0 && hourNum < 12) {
+        greeting = "Good morning!";
+      } else if (hourNum >= 12 && hourNum < 17) {
+        greeting = "Good afternoon!";
+      } else {
+        greeting = "Good evening!";
+      }
+      greetingEl.textContent = `${greeting} It's ${timeDate} 👋`;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      showTimeGreeting();
+      const chatInput = document.getElementById('chat-input');
+      const sendMessage = document.getElementById('send-message');
+
+      if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendChatMessage();
+          }
+        });
+        chatInput.addEventListener('touchstart', (e) => {
+          e.target.focus();
+        }, { passive: true });
+      }
+
+      if (sendMessage) {
+        sendMessage.addEventListener('click', sendChatMessage);
+      }
+
+      // Prevent touchmove interference
+      document.addEventListener('touchmove', (e) => {
+        if (!document.body.classList.contains('menu-open')) {
+          const chatContainer = e.target.closest('.chat-fullscreen');
+          if (chatContainer) {
+            return; // Allow scrolling in chat
+          }
+        }
+      }, { passive: false });
+    });
+  </script>
 </body>
 </html>
