@@ -130,7 +130,7 @@ body.dark-mode {
 }
 
 /* Auto blur */
-.autoBlur {
+/* .autoBlur {
     animation: autoBlurAnimation linear both;
     animation-timeline: view();
 }
@@ -149,7 +149,7 @@ body.dark-mode {
         opacity: 0;
     }
 }
-
+ */
 .luxury {
     width: 100%;
     height: 100%;
