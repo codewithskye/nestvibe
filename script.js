@@ -2,7 +2,6 @@
 const FORMSPREE_RENTAL_ENDPOINT = 'https://formspree.io/f/xkgbygwp';
 const FORMSPREE_CONTACT_ENDPOINT = 'https://formspree.io/f/myzjvnbq';
 
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('[NestVibe] Script initialized');
 
@@ -12,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     window.nestVibeInitialized = true;
+
+    // Preload critical images
+    const criticalImages = ['images/hero-main.jpg'];
+    criticalImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
 
     // Global variables
     let isRentalSubmitting = false;
@@ -532,20 +538,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function toggleChat() {
-        if (!elements.chatContainer) return;
+    function toggleChat(e) {
+        console.log('[NestVibe] toggleChat triggered, window.innerWidth:', window.innerWidth);
+        if (!elements.chatContainer) {
+            console.log('[NestVibe] chatContainer not found');
+            return;
+        }
 
-        const isActive = elements.chatContainer.classList.contains('active');
-        const chatNotification = document.getElementById('chat-notification');
-
-        if (isActive) {
-            elements.chatContainer.classList.remove('active');
+        if (window.innerWidth <= 768) {
+            console.log('[NestVibe] Mobile view detected, redirecting to chat.html');
+            window.location.href = 'chat.html';
         } else {
-            elements.chatContainer.classList.add('active');
-            if (chatNotification) {
+            console.log('[NestVibe] Desktop view, toggling chat container');
+            const isActive = elements.chatContainer.classList.contains('active');
+            elements.chatContainer.classList.toggle('active');
+
+            const chatNotification = document.getElementById('chat-notification');
+            if (!isActive && chatNotification) {
                 chatNotification.style.display = 'none';
             }
-            if (elements.chatInput) {
+
+            if (!isActive && elements.chatInput) {
                 setTimeout(() => elements.chatInput.focus(), 100);
             }
         }
@@ -595,9 +608,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = elements.propsPropertyType?.value || '';
         const priceRange = elements.priceRange?.value || '';
 
-        if (!elements.propertyGrid) return;
+        if (!elements.propertyGrid) {
+            console.error('[NestVibe] propertyGrid not found');
+            return;
+        }
 
         const cards = elements.propertyGrid.querySelectorAll('.property-card');
+
+        if (cards.length === 0) {
+            console.warn('[NestVibe] No property-card elements found in propertyGrid');
+        }
 
         cards.forEach(card => {
             const cardState = card.dataset.state || '';
@@ -618,11 +638,19 @@ document.addEventListener('DOMContentLoaded', () => {
                            (!type || cardType === type) &&
                            priceMatch;
 
-            card.style.display = matches ? 'block' : 'none';
-            if (matches && window.innerWidth <= 768) {
+            if (matches) {
+                card.style.display = 'block';
                 card.classList.add('visible');
+                console.log(`[NestVibe] Showing card: ${card.dataset.name || 'unknown'}, Classes: ${card.className}`);
+            } else {
+                card.style.display = 'none';
+                card.classList.remove('visible');
+                console.log(`[NestVibe] Hiding card: ${card.dataset.name || 'unknown'}`);
             }
         });
+
+        // Reinitialize animations to catch any missed elements
+        initScrollAnimations();
     }
 
     function displayFilterResults(properties) {
@@ -640,7 +668,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 filteredProperties.innerHTML = '<p>No properties found matching your criteria. Try adjusting your filters.</p>';
             } else {
                 filteredProperties.innerHTML = properties.map(property => `
-                    <div class="rental-card">
+                    <div class="rental-card mobile-scroll">
                         <div class="rental-image" style="background-image: url('images/hero-main.jpg')"></div>
                         <h3>${property.name}</h3>
                         <p>$${property.price}/month | ${property.city.replace('-', ' ')} | ${property.type}</p>
@@ -648,47 +676,64 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `).join('');
             }
+            // Reinitialize scroll animations for new elements
+            initScrollAnimations();
+            console.log('[NestVibe] Reinitialized scroll animations for rental-card elements');
         }
     }
 
     // Navigation scroll behavior
+    let lastScrollY = 0;
+
     function updateNavigation() {
         if (!elements.nav) return;
 
         const scrollY = window.scrollY;
-        if (scrollY > 100) {
-            elements.nav.classList.add('transparent');
+
+        if (scrollY > lastScrollY && scrollY > 100) {
+            elements.nav.classList.add('hidden-nav');
         } else {
-            elements.nav.classList.remove('transparent');
+            elements.nav.classList.remove('hidden-nav');
+            if (scrollY > 100) {
+                elements.nav.classList.add('scrolled');
+            } else {
+                elements.nav.classList.remove('scrolled');
+            }
         }
+
+        lastScrollY = scrollY;
     }
 
     function initScrollAnimations() {
-    // Clean up any existing observer to prevent duplicates
-    if (window.scrollObserver) {
-        window.scrollObserver.disconnect();
-    }
-
-    // Configure Intersection Observer
-    window.scrollObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    window.scrollObserver.unobserve(entry.target); // Stop observing once visible
-                }
-            });
-        },
-        {
-            threshold: window.innerWidth <= 768 ? 0.1 : 0.15, // Slightly lower threshold for mobile
-            rootMargin: window.innerWidth <= 768 ? '0px' : '30px 0px', // Adjust root margin for desktop
+        // Clean up existing observer
+        if (window.scrollObserver) {
+            window.scrollObserver.disconnect();
         }
-    );
 
-    // Select elements to observe
-    const elementsToObserve = document.querySelectorAll(
-            '.mobile-scroll, .slide-in-left, .slide-in-right, .fade-in, .form-side, .property-card'
+        // Configure Intersection Observer
+        window.scrollObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    console.log(`[NestVibe] Observing element: ${entry.target.className}, Intersecting: ${entry.isIntersecting}`);
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        window.scrollObserver.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: window.innerWidth <= 768 ? 0.01 : 0.15,
+                rootMargin: window.innerWidth <= 768 ? '-50px 0px' : '30px 0px'
+            }
         );
+
+        // Select elements to observe
+        const elementsToObserve = document.querySelectorAll(
+            '.mobile-scroll, .slide-in-left, .slide-in-right, .fade-in, .form-side, .property-card, .rental-card, .hero-title, .hero-text, .hero-btn'
+        );
+
+        // Log for debugging
+        console.log(`[NestVibe] Found ${elementsToObserve.length} elements to observe`);
 
         // Observe all elements
         elementsToObserve.forEach((el) => {
@@ -697,23 +742,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.scrollObserver.observe(el);
             }
         });
-    }
 
-    // Initialize animations on page load
-    document.addEventListener('DOMContentLoaded', initScrollAnimations);
-
-    // Reinitialize on window resize to handle dynamic viewport changes
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(initScrollAnimations, 200); // Debounce resize event
-    });
-
-    // Fallback for browsers without Intersection Observer support
-    if (!('IntersectionObserver' in window)) {
-        document.querySelectorAll('.mobile-scroll, .slide-in-left, .slide-in-right, .fade-in, .form-side, .property-card').forEach((el) => {
-            el.classList.add('visible');
-        });
+        // Fallback: Force visibility after 2 seconds for mobile
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                elementsToObserve.forEach((el) => {
+                    if (!el.classList.contains('visible')) {
+                        el.classList.add('visible');
+                        console.log(`[NestVibe] Fallback: Forced visibility for ${el.className}`);
+                    }
+                });
+            }, 2000);
+        }
     }
 
     // Event Listeners Setup
@@ -871,18 +911,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init();
 });
-
-document.addEventListener('DOMContentLoaded', () => {
-    const criticalImages = ['images/hero-main.jpg'];
-    criticalImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-
-    document.addEventListener('touchmove', (e) => {
-        if (e.target.closest('form') || e.target.closest('.chat-container')) {
-            return;
-        }
-    }, { passive: true });
-});
-
